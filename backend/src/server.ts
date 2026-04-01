@@ -10,14 +10,15 @@ dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
+const allowedOrigin = process.env.FRONTEND_URL || '*';
 const io = new Server(server, {
   cors: {
-    origin: '*', // Adjust for production
-    methods: ['GET', 'POST']
+    origin: allowedOrigin,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
   }
 });
 
-app.use(cors());
+app.use(cors({ origin: allowedOrigin }));
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);

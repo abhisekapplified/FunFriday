@@ -16,7 +16,7 @@ export const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
   useEffect(() => {
     // Determine the socket URL. In dev, we expect our backend on 4000.
-    const url = process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:4000';
+    const url = import.meta.env.VITE_BACKEND_URL || 'http://localhost:4000';
     const newSocket = io(url);
 
     newSocket.on('connect', () => {
