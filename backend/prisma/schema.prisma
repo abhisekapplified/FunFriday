@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(PARTICIPANT)
+  rooms        Room[]
+}
+
+enum Role {
+  HOST
+  PARTICIPANT
+}
+
+model Room {
+  id        String   @id @default(uuid())
+  roomCode  String   @unique
+  hostId    String
+  host      User     @relation(fields: [hostId], references: [id])
+  gameType  String
+  status    String   @default("WAITING") // WAITING, IN_PROGRESS, FINISHED
+  createdAt DateTime @default(now())
+}
