@@ -1,0 +1,12 @@
+{
+  "name": "funfriday",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "cd backend && npm install --include=dev && npm run build",
+    "start": "cd backend && node dist/server.js"
+  }
+}
