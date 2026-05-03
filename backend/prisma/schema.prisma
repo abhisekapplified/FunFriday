@@ -7,26 +7,59 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  passwordHash String
-  name         String
-  role         Role     @default(PARTICIPANT)
-  rooms        Room[]
-}
-
 enum Role {
   HOST
   PARTICIPANT
 }
 
+enum GameType {
+  TRIVIA
+  WORD_SCRAMBLE
+  TRUE_OR_FALSE
+}
+
+enum RoomStatus {
+  WAITING
+  IN_PROGRESS
+  FINISHED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  name         String
+  role         Role          @default(HOST)
+  rooms        Room[]
+  createdAt    DateTime      @default(now())
+}
+
 model Room {
-  id        String   @id @default(uuid())
-  roomCode  String   @unique
+  id        String        @id @default(uuid())
+  roomCode  String        @unique
   hostId    String
-  host      User     @relation(fields: [hostId], references: [id])
-  gameType  String
-  status    String   @default("WAITING") // WAITING, IN_PROGRESS, FINISHED
-  createdAt DateTime @default(now())
+  host      User          @relation(fields: [hostId], references: [id])
+  gameType  GameType      @default(TRIVIA)
+  status    RoomStatus    @default(WAITING)
+  createdAt DateTime      @default(now())
+  sessions  GameSession[]
+}
+
+model Question {
+  id        String   @id @default(uuid())
+  gameType  GameType
+  question  String
+  answer    String
+  options   String[]
+  category  String?
+  timeLimit Int      @default(15)
+}
+
+model GameSession {
+  id       String   @id @default(uuid())
+  roomId   String
+  room     Room     @relation(fields: [roomId], references: [id])
+  scores   Json
+  winner   String?
+  playedAt DateTime @default(now())
 }

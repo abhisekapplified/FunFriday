@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+
+# Environment variables (contain secrets)
+.env
+.env.local
+.env.production
+
+# Build output
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Claude internal
+.claude/
+
+# Prisma generated (client is regenerated from schema)
+# Keep schema.prisma but ignore generated client cache
+
+# Lock files (keep these for reproducible builds)
+# package-lock.json — committed intentionally
