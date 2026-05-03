@@ -6,6 +6,7 @@
     "start": "node dist/server.js",
     "dev": "nodemon",
     "build": "tsc",
+    "postinstall": "prisma generate",
     "seed": "ts-node --project tsconfig.seed.json prisma/seed.ts"
   },
   "prisma": {
